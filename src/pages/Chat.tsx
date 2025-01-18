@@ -21,6 +21,7 @@ export const Chat: React.FC<ChatProps> = ({ onLogout }) => {
   const [settings, setSettings] = useState<ChatSettings>(DEFAULT_CHAT_SETTINGS);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const requestControllerRef = useRef<AbortController | null>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -47,29 +48,32 @@ export const Chat: React.FC<ChatProps> = ({ onLogout }) => {
 
   const handleSend = async (content: string) => {
     if (!content.trim() || !sessionId || isLoading) return;
-  
+
     const userMessage: Message = {
       id: Date.now().toString(),
       content: content.trim(),
       sender: 'user',
       timestamp: new Date(),
     };
-  
+
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
-  
+
     const timestamp = userMessage.timestamp.toISOString();
     const [date, timeWithZ] = timestamp.split('T');
     const timeWithoutMs = timeWithZ.split('.')[0];
-  
+
+    requestControllerRef.current = new AbortController();
+    const signal = requestControllerRef.current.signal;
+
     try {
       const response = await fetch('https://codefest-backend.azurewebsites.net/chatbot/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-  
+        signal,
         body: JSON.stringify({
           session_id: sessionId,
           question: content.trim(),
@@ -81,15 +85,15 @@ export const Chat: React.FC<ChatProps> = ({ onLogout }) => {
             response_length: settings.responseLength,
           },
           date: `${date}T00:00:00Z`,
-          time: timeWithoutMs
-        })
+          time: timeWithoutMs,
+        }),
       });
-  
+
       const data: ChatResponse = await response.json();
-  
+
       const isVisualizationError = data.result.chart_analysis === "Unable to provide analytical insights due to visualization error.";
       const isTableAccepted = data.result.table_accept_status === "yes";
-  
+
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
         content: data.result.text_explanation,
@@ -97,25 +101,30 @@ export const Chat: React.FC<ChatProps> = ({ onLogout }) => {
         timestamp: new Date(),
         chartHtml: isVisualizationError ? undefined : data.result.chart_file_url,
         explanation: isVisualizationError ? undefined : data.result.chart_analysis,
-        // Ensure tableData is either string or undefined (not null)
         tableData: isTableAccepted && data.result.html_table_data ? data.result.html_table_data : undefined,
       };
-  
-      // Only append Table Acceptance Status if tableData exists
+
       if (isTableAccepted && botMessage.tableData === undefined && data.result.table_accept_status) {
         botMessage.content += `\n\nTable Acceptance Status: ${data.result.table_accept_status}`;
       }
-  
+
       setMessages(prev => [...prev, botMessage]);
     } catch (error) {
-      console.error('Failed to send message:', error);
+      if (error === 'AbortError') {
+        console.log('Request was canceled');
+      } else {
+        console.error('Failed to send message:', error);
+      }
     } finally {
       setIsLoading(false);
     }
   };
-  
 
   const handleReset = () => {
+    if (requestControllerRef.current) {
+      requestControllerRef.current.abort();
+    }
+
     setMessages([]);
     setInput('');
   };
