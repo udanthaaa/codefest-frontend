@@ -74,7 +74,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
             }}
             className="absolute -top-1/2 -left-1/2 w-[150%] h-[150%] rounded-full"
             style={{
-              background: "radial-gradient(circle, rgba(0,102,204,0.15) 0%, rgba(0,0,0,0) 70%)",
+              background: "radial-gradient(circle, rgba(0,102,204,0.20) 0%, rgba(0,0,0,0) 70%)",
               filter: "blur(60px)"
             }}
           />
