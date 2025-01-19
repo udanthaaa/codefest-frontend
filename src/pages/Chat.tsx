@@ -175,8 +175,7 @@ export const Chat: React.FC<ChatProps> = ({ onLogout }) => {
                   "Show me the sales trend for last month",
                   "Give me the sales distribution trend",
                   "List down the Follow-up meetings scheduled for each consultant",
-                  "Summarize top-performing consultants",
-                  "Show sales figures for the current quarter"
+                  "What are the sales figures for the current quarter so far?"
                 ]}
                 icon="💡"
                 isDark={isDark}
@@ -188,8 +187,7 @@ export const Chat: React.FC<ChatProps> = ({ onLogout }) => {
                   "Generate visual reports",
                   "Export data to CSV",
                   "Compare performance metrics",
-                  "Identify sales outliers effectively",
-                  "Integrate with CRM for live data"
+                  "Integrate with CRM for real-time data updates"
                 ]}
                 icon="⚡"
                 isDark={isDark}
@@ -201,8 +199,7 @@ export const Chat: React.FC<ChatProps> = ({ onLogout }) => {
                   "May take more time for complex queries",
                   "Cannot modify or input new data",
                   "Limited to predefined metrics",
-                  "No unstructured data handling",
-                  "Input data quality-dependent"
+                  "Dependent on the quality and accuracy of input data"
                 ]}
                 icon="⚠️"
                 isDark={isDark}
