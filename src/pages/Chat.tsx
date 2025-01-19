@@ -131,7 +131,7 @@ export const Chat: React.FC<ChatProps> = ({ onLogout }) => {
 
   return (
     <div className={`min-h-screen ${
-      isDark ? 'bg-black text-white' : 'bg-gray-50 text-gray-900'
+      isDark ? 'bg-black text-white' : 'bg-gray-100 text-gray-900'
     }`}>
       <div className="fixed top-0 left-0 right-0 z-50">
         <Header 
