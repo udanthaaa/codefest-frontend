@@ -17,8 +17,8 @@ This is a chat application that allows users to interact with a bot using both t
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/chat-application.git
-cd chat-application
+git clone https://github.com/udanthaaa/codefest-frontend.git
+cd codefest-frontend
 ```
 
 ### 2. Install Dependencies
@@ -54,17 +54,31 @@ This will start the application on http://localhost:3000.
 ```bash
 /src
   /components
-    /ChatInput.tsx       # Chat input component
-    /FAQButton.tsx       # FAQ button component
-    /FAQBox.tsx          # FAQ box component
-    /ChatMessage.tsx     # Chat message display component
-    /Header.tsx          # Header with settings and theme toggle
-    /FeatureCard.tsx     # Feature card component
+    /ChatInput.tsx
+    /ChatMessage.tsx
+    /FAQButton.tsx
+    /FAQBox.tsx
+    /ChatMessage.tsx 
+    /Header.tsx
+    /FeatureCard.tsx
+    /LoadingMessage.tsx
+    /LoadingScreen.tsx
+    /ResetButton.tsx
+    /SettingsModal.tsx
+    /ThemeToggle.tsx
+  /pages
+    /Chat.tsx
+    /CreateAccount.tsx
+    /ForgotPassword.tsx
+    /Login.tsx
   /types
-    /index.ts            # Type definitions for messages, settings, etc.
+    /index.ts
   /utils
-    /messageFormatter.ts # Function for formatting messages
-    /explanationFormatter.ts # Function for formatting explanations
+    /messageFormatter.ts
+    /explanationFormatter.ts
+App.tsx
+index.css
+main.tsx
 ```
 
 ### Technologies Used
