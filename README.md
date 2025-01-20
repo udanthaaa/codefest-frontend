@@ -1,4 +1,4 @@
-# codefest-frontend
+# SyscoPulse Frontend
 
 This is a chat application that allows users to interact with a bot using both text and voice input. The chat application includes features like message formatting, displaying charts and tables, and supporting different languages and themes (light/dark mode). It also supports FAQs and user settings customization.
 
