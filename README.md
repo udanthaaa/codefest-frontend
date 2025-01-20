@@ -40,7 +40,7 @@ npm run dev
 yarn run dev
 ```
 
-This will start the application on http://localhost:3000.
+This will start the application on http://localhost:5173.
 
 ### Usage
 
