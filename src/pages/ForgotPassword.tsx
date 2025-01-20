@@ -3,16 +3,18 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, ArrowLeft, Loader2 } from 'lucide-react';
 
+// Props for ForgotPassword component
 interface ForgotPasswordProps {
-  onBack: () => void;
+  onBack: () => void; // Callback to navigate back to the previous view
 }
 
 export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBack }) => {
-  const [email, setEmail] = useState('');
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [email, setEmail] = useState(''); // Email input state
+  const [isSubmitted, setIsSubmitted] = useState(false); // Submission state
+  const [isLoading, setIsLoading] = useState(false); // Loading indicator state
+  const [errorMessage, setErrorMessage] = useState(''); // Error message state
 
+  // Handles password reset form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -21,16 +23,14 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBack }) => {
     try {
       const response = await fetch('https://codefest-backend.azurewebsites.net/user/forgot-password', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       });
 
       if (response.ok) {
         const data = await response.json();
         if (data.message) {
-          setIsSubmitted(true);
+          setIsSubmitted(true); // Mark as successfully submitted
         } else {
           throw new Error('Unexpected response from server.');
         }
@@ -39,10 +39,10 @@ export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ onBack }) => {
         throw new Error(errorData.message || 'Failed to send password reset request.');
       }
     } catch (error: any) {
-      console.error('Error:', error);
+      console.error('Error:', error); // Log error for debugging
       setErrorMessage(error.message || 'Something went wrong. Please try again.');
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); // Stop loading indicator
     }
   };
 

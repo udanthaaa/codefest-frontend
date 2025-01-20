@@ -2,31 +2,34 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, ArrowLeft, Building2, UserSquare2, Loader2 } from 'lucide-react';
 
+// Props for CreateAccount component
 interface CreateAccountProps {
-  onBack: () => void;
+  onBack: () => void; // Callback to navigate back to the previous view
 }
 
 export const CreateAccount: React.FC<CreateAccountProps> = ({ onBack }) => {
-  const [employeeId, setEmployeeId] = useState('');
-  const [position, setPosition] = useState('');
-  const [email, setEmail] = useState('');
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [employeeId, setEmployeeId] = useState(''); // State to store employee ID input
+  const [position, setPosition] = useState(''); // State to store position input
+  const [email, setEmail] = useState(''); // State to store email input
+  const [isSubmitted, setIsSubmitted] = useState(false); // Tracks if the account creation was successful
+  const [isLoading, setIsLoading] = useState(false); // Tracks the loading state of the form submission
+  const [error, setError] = useState<string | null>(null); // Stores error messages
 
+  // Handles form submission for account creation
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    setIsSubmitted(false);
-    setError(null);
-  
+    setIsLoading(true); // Show loading indicator
+    setIsSubmitted(false); // Reset submission state
+    setError(null); // Clear previous errors
+
     const payload = {
       email,
       employee_id: employeeId,
       company_position: position,
     };
-  
+
     try {
+      // API call to create a new account
       const response = await fetch('https://codefest-backend.azurewebsites.net/user/admin/create-account', {
         method: 'POST',
         headers: {
@@ -35,25 +38,23 @@ export const CreateAccount: React.FC<CreateAccountProps> = ({ onBack }) => {
         },
         body: JSON.stringify(payload),
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok) {
-        setIsSubmitted(true);
+        setIsSubmitted(true); // Mark as successfully submitted
       } else {
-        console.error(data.detail || 'An error occurred');
-  
-        const extractedError = data.detail.split(':').pop()?.trim();
-        setError(extractedError || 'Failed to create account.');
+        console.error(data.detail || 'An error occurred'); // Log server-side error
+        const extractedError = data.detail.split(':').pop()?.trim(); // Extract specific error message
+        setError(extractedError || 'Failed to create account.'); // Display error to the user
       }
     } catch (error) {
-      console.error('Error:', error);
-      setError('A network error occurred. Please try again later.');
+      console.error('Error:', error); // Log client-side error
+      setError('A network error occurred. Please try again later.'); // Notify user of network issue
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); // Stop loading indicator
     }
   };
-  
 
   return (
     <motion.div

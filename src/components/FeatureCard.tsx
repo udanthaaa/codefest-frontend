@@ -1,11 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
+// FeatureCardProps defines the structure of the props passed to the FeatureCard component.
+// It includes the title, a list of items, an icon, and a flag to indicate the theme.
 interface FeatureCardProps {
-  title: string;
-  items: string[];
-  icon: string;
-  isDark: boolean;
+  title: string; // Title displayed on the feature card
+  items: string[]; // Array of items or features to be listed on the card
+  icon: string; // Icon representing the feature (could be an icon name or image URL)
+  isDark: boolean; // Indicates whether dark mode is active, used to adjust styles
 }
 
 export const FeatureCard: React.FC<FeatureCardProps> = ({ title, items, icon, isDark }) => {

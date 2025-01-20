@@ -1,3 +1,4 @@
+// Represents a message object in the chat
 export interface Message {
   id: string;
   content: string;
@@ -8,6 +9,7 @@ export interface Message {
   tableData?: string;
 } 
 
+// Represents the structure of the response from the chat service
 export interface ChatResponse {
   session_id: string;
   result: {
@@ -19,10 +21,12 @@ export interface ChatResponse {
   };
 }
 
+// Represents the theme settings (light or dark mode)
 export interface Theme {
   mode: 'light' | 'dark';
 }
 
+// Represents the settings that can be customized in the chat
 export interface ChatSettings {
   language: 'English' | 'Spanish' | 'French';
   politenessLevel: 'Friendly' | 'Neutral' | 'Professional';
@@ -31,6 +35,7 @@ export interface ChatSettings {
   responseLength: 'Brief' | 'Medium' | 'Detailed';
 }
 
+// Default chat settings applied initially
 export const DEFAULT_CHAT_SETTINGS: ChatSettings = {
   language: 'English',
   politenessLevel: 'Professional',
@@ -39,6 +44,7 @@ export const DEFAULT_CHAT_SETTINGS: ChatSettings = {
   responseLength: 'Medium'
 };
 
+// A list of frequently asked questions (FAQ)
 export const FAQ_QUESTIONS = [
   "Show the monthly distribution of meetings?",
   "Which regions should we target for up selling based on canceled or incomplete orders?",

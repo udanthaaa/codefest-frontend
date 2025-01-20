@@ -8,21 +8,22 @@ import { ChatInput } from '../components/ChatInput';
 import { LoadingMessage } from '../components/LoadingMessage';
 
 interface ChatProps {
-  onLogout: () => void;
+  onLogout: () => void; // Callback for logout action
 }
 
 export const Chat: React.FC<ChatProps> = ({ onLogout }) => {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState('');
-  const [isDark, setIsDark] = useState(true);
-  const [sessionId, setSessionId] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isListening, setIsListening] = useState(false);
-  const [settings, setSettings] = useState<ChatSettings>(DEFAULT_CHAT_SETTINGS);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const chatContainerRef = useRef<HTMLDivElement>(null);
-  const requestControllerRef = useRef<AbortController | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]); // Tracks chat messages
+  const [input, setInput] = useState(''); // Stores user input
+  const [isDark, setIsDark] = useState(true); // Tracks theme state
+  const [sessionId, setSessionId] = useState<string | null>(null); // Stores chatbot session ID
+  const [isLoading, setIsLoading] = useState(false); // Tracks message loading state
+  const [isListening, setIsListening] = useState(false); // Tracks if voice input is active
+  const [settings, setSettings] = useState<ChatSettings>(DEFAULT_CHAT_SETTINGS); // Chatbot settings
+  const messagesEndRef = useRef<HTMLDivElement>(null); // Ref for auto-scrolling to the latest message
+  const chatContainerRef = useRef<HTMLDivElement>(null); // Ref for chat container
+  const requestControllerRef = useRef<AbortController | null>(null); // Ref for aborting API requests
 
+  // Scrolls to the latest message when messages or loading state change
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -31,11 +32,12 @@ export const Chat: React.FC<ChatProps> = ({ onLogout }) => {
     scrollToBottom();
   }, [messages, isLoading]);
 
+  // Starts a new chatbot session on component mount
   useEffect(() => {
     const startSession = async () => {
       try {
         const response = await fetch('https://codefest-backend.azurewebsites.net/chatbot/start_session', {
-          method: 'POST'
+          method: 'POST',
         });
         const data = await response.json();
         setSessionId(data.session_id);
@@ -46,9 +48,11 @@ export const Chat: React.FC<ChatProps> = ({ onLogout }) => {
     startSession();
   }, []);
 
+  // Handles sending a user message to the chatbot
   const handleSend = async (content: string) => {
     if (!content.trim() || !sessionId || isLoading) return;
 
+    // Prepare user message
     const userMessage: Message = {
       id: Date.now().toString(),
       content: content.trim(),
@@ -56,7 +60,7 @@ export const Chat: React.FC<ChatProps> = ({ onLogout }) => {
       timestamp: new Date(),
     };
 
-    setMessages(prev => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
 
@@ -68,6 +72,7 @@ export const Chat: React.FC<ChatProps> = ({ onLogout }) => {
     const signal = requestControllerRef.current.signal;
 
     try {
+      // Send user message to chatbot API
       const response = await fetch('https://codefest-backend.azurewebsites.net/chatbot/chat', {
         method: 'POST',
         headers: {
@@ -91,9 +96,11 @@ export const Chat: React.FC<ChatProps> = ({ onLogout }) => {
 
       const data: ChatResponse = await response.json();
 
+      // Extract response details for visualization and table data
       const isVisualizationError = data.result.chart_analysis === "Unable to provide analytical insights due to visualization error.";
       const isTableAccepted = data.result.table_accept_status === "yes";
 
+      // Prepare bot message
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
         content: data.result.text_explanation,
@@ -108,7 +115,7 @@ export const Chat: React.FC<ChatProps> = ({ onLogout }) => {
         botMessage.content += `\n\nTable Acceptance Status: ${data.result.table_accept_status}`;
       }
 
-      setMessages(prev => [...prev, botMessage]);
+      setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
       if (error === 'AbortError') {
         console.log('Request was canceled');
@@ -120,14 +127,15 @@ export const Chat: React.FC<ChatProps> = ({ onLogout }) => {
     }
   };
 
+  // Resets the chat by clearing messages and input
   const handleReset = () => {
     if (requestControllerRef.current) {
       requestControllerRef.current.abort();
     }
-
     setMessages([]);
     setInput('');
   };
+
 
   return (
     <div className={`min-h-screen ${

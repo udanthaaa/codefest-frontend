@@ -4,11 +4,11 @@ import { X, Sliders } from 'lucide-react';
 import { ChatSettings } from '../types';
 
 interface SettingsModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  settings: ChatSettings;
-  onSettingsChange: (settings: ChatSettings) => void;
-  isDark: boolean;
+  isOpen: boolean; // Determines if the modal is displayed
+  onClose: () => void; // Callback to close the modal
+  settings: ChatSettings; // Current chat settings
+  onSettingsChange: (settings: ChatSettings) => void; // Callback to update settings
+  isDark: boolean; // Indicates if the dark theme is enabled
 }
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({
@@ -18,29 +18,34 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   onSettingsChange,
   isDark,
 }) => {
+  // Return null if the modal is not open
   if (!isOpen) return null;
 
+  // Variants for modal animation
   const modalVariants = {
-    hidden: { opacity: 0, y: 50, scale: 0.95 },
-    visible: { opacity: 1, y: 0, scale: 1 },
-    exit: { opacity: 0, scale: 0.95 },
+    hidden: { opacity: 0, y: 50, scale: 0.95 }, // Hidden state
+    visible: { opacity: 1, y: 0, scale: 1 }, // Visible state
+    exit: { opacity: 0, scale: 0.95 }, // Exit animation
   };
 
+  // Variants for overlay animation
   const overlayVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 0.5 },
-    exit: { opacity: 0 },
+    hidden: { opacity: 0 }, // Hidden state
+    visible: { opacity: 0.5 }, // Visible state
+    exit: { opacity: 0 }, // Exit animation
   };
 
+  // Helper function to update specific settings
   const updateSettings = <K extends keyof ChatSettings>(
     key: K,
     value: ChatSettings[K]
   ) => {
     onSettingsChange({
-      ...settings,
-      [key]: value,
+      ...settings, // Keep existing settings
+      [key]: value, // Update the specified setting
     });
   };
+
 
   return (
     <>

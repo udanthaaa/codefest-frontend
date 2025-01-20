@@ -3,9 +3,10 @@ import { motion } from 'framer-motion';
 import { Moon, Sun } from 'lucide-react';
 
 interface ThemeToggleProps {
-  isDark: boolean;
-  onToggle: () => void;
+  isDark: boolean; // Indicates whether the current theme is dark
+  onToggle: () => void; // Callback function to toggle the theme
 }
+
 
 export const ThemeToggle: React.FC<ThemeToggleProps> = ({ isDark, onToggle }) => {
   return (

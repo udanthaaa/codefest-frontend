@@ -4,12 +4,15 @@ import { LogOut, MoreVertical, RefreshCw, Sun, Moon, X, Settings } from 'lucide-
 import { ChatSettings, DEFAULT_CHAT_SETTINGS } from '../types';
 import { SettingsModal } from './SettingsModal';
 
+// Header component, responsible for displaying the top navigation bar
+
+// Handling theme toggling, resetting chat, logout functionality, and settings management
 interface HeaderProps {
-  isDark: boolean;
-  onThemeToggle: () => void;
-  onReset: () => void;
-  onLogout: () => void;
-  onSettingsChange: (settings: ChatSettings) => void;
+  isDark: boolean; // Indicates if dark mode is active
+  onThemeToggle: () => void; // Callback to toggle between dark and light themes
+  onReset: () => void; // Callback to reset the chat interface
+  onLogout: () => void; // Callback to log the user out
+  onSettingsChange: (settings: ChatSettings) => void; // Callback to update chat settings
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -19,21 +22,25 @@ export const Header: React.FC<HeaderProps> = ({
   onLogout,
   onSettingsChange
 }) => {
-  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
-  const [settings, setSettings] = useState<ChatSettings>(DEFAULT_CHAT_SETTINGS);
+  // Local state management for controlling UI components
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false); // Manages logout confirmation visibility
+  const [showMobileMenu, setShowMobileMenu] = useState(false); // Controls mobile menu visibility
+  const [showSettings, setShowSettings] = useState(false); // Controls settings modal visibility
+  const [settings, setSettings] = useState<ChatSettings>(DEFAULT_CHAT_SETTINGS); // Stores current chat settings
 
+  // Handles the logout action
   const handleLogout = () => {
     setShowLogoutConfirm(false);
     onLogout();
   };
 
+  // Updates settings and propagates the change to the parent component
   const handleSettingsChange = (newSettings: ChatSettings) => {
     setSettings(newSettings);
     onSettingsChange(newSettings);
   };
 
+  // Returns a greeting based on the current time of day
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return 'Good morning';
@@ -41,6 +48,7 @@ export const Header: React.FC<HeaderProps> = ({
     return 'Good evening';
   };
 
+  // Mobile menu item component that is reused for different actions like logout, settings, etc.
   const MobileMenuItem = ({ icon: Icon, label, onClick, className = '' }: { 
     icon: typeof LogOut;
     label: string;

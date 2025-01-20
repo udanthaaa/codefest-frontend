@@ -2,10 +2,12 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { RefreshCw } from 'lucide-react';
 
+// Props for the ResetButton component
 interface ResetButtonProps {
-  onReset: () => void;
-  isDark: boolean;
+  onReset: () => void; // Callback function to handle the reset action
+  isDark: boolean;     // Indicates if the dark theme is active
 }
+
 
 export const ResetButton: React.FC<ResetButtonProps> = ({ onReset, isDark }) => {
   return (

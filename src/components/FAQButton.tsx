@@ -5,12 +5,12 @@ import { FAQBox } from './FAQBox';
 import { FAQ_QUESTIONS } from '../types';
 
 interface FAQButtonProps {
-  onSelectQuestion: (question: string) => void;
-  isDark: boolean;
+  onSelectQuestion: (question: string) => void; // Callback function that is called when a question is selected
+  isDark: boolean; // Flag indicating whether dark mode is active, used for styling
 }
 
 export const FAQButton: React.FC<FAQButtonProps> = ({ onSelectQuestion, isDark }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // Local state to manage the open/closed state of the FAQ button
 
   return (
     <div className="relative">

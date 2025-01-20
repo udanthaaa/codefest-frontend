@@ -1,8 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
+// Props for the LoadingMessage component
 interface LoadingMessageProps {
-  isDark: boolean;
+  isDark: boolean; // Determines if the dark theme is active, affecting the component's style
 }
 
 export const LoadingMessage: React.FC<LoadingMessageProps> = ({ isDark }) => {

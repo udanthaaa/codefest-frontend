@@ -6,20 +6,24 @@ import { LoadingScreen } from '../components/LoadingScreen';
 import { ForgotPassword } from './ForgotPassword';
 import { CreateAccount } from './CreateAccount';
 
+// Props for the Login component
 interface LoginProps {
-  onLogin: () => void;
+  onLogin: () => void; // Callback for successful login
 }
 
+// Type for the current authentication view
 type AuthView = 'login' | 'forgot-password' | 'create-account';
 
+// Login component
 export const Login: React.FC<LoginProps> = ({ onLogin }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showLoading, setShowLoading] = useState(false);
-  const [view, setView] = useState<AuthView>('login');
-  const [error, setError] = useState('');
-  const [isSigningIn, setIsSigningIn] = useState(false);
+  const [email, setEmail] = useState(''); // Email input state
+  const [password, setPassword] = useState(''); // Password input state
+  const [showLoading, setShowLoading] = useState(false); // Loading screen toggle
+  const [view, setView] = useState<AuthView>('login'); // Current view state
+  const [error, setError] = useState(''); // Error message state
+  const [isSigningIn, setIsSigningIn] = useState(false); // Signing-in state
 
+  // Handles login form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');

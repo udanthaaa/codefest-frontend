@@ -2,11 +2,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { X } from 'lucide-react';
 
+// FAQBoxProps defines the structure of the props for the FAQBox component.
+// It includes a list of questions, callbacks for closing the box and selecting a question, and a boolean for dark mode styling.
 interface FAQBoxProps {
-  isDark: boolean;
-  questions: string[];
-  onClose: () => void;
-  onSelectQuestion: (question: string) => void;
+  isDark: boolean; // Flag indicating whether dark mode is active, used for styling
+  questions: string[]; // Array of questions to display in the FAQ box
+  onClose: () => void; // Callback to handle closing the FAQ box
+  onSelectQuestion: (question: string) => void; // Callback for selecting a question from the FAQ list
 }
 
 export const FAQBox: React.FC<FAQBoxProps> = ({
@@ -15,6 +17,7 @@ export const FAQBox: React.FC<FAQBoxProps> = ({
   onClose,
   onSelectQuestion,
 }) => {
+  // Component logic and JSX will go here
   return (
     <motion.div
       initial={{ opacity: 0, y: 10, scale: 0.95 }}

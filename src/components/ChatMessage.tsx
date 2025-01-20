@@ -5,27 +5,32 @@ import { formatMessageContent } from '../utils/messageFormatter';
 import { formatExplanationContent } from '../utils/explanationFormatter';
 import { Download, ExternalLink, X } from 'lucide-react';
 
+// ChatMessageProps defines the props for the ChatMessage component.
+// It includes the message object containing message details and a boolean for dark mode styling.
 interface ChatMessageProps {
-  message: Message;
-  isDark: boolean;
+  message: Message; // The message object to be rendered
+  isDark: boolean;  // Flag indicating whether dark mode is active, used for styling
 }
 
 export const ChatMessage: React.FC<ChatMessageProps> = ({ message, isDark }) => {
-  const isBot = message.sender === 'bot';
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const isBot = message.sender === 'bot'; // Determines if the message is from the bot
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
 
+  // Variants for the modal's animation: defining visibility and movement on the Y-axis
   const modalVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: 50 },
   };
 
+  // Variants for the overlay's animation: defining opacity transition
   const overlayVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 0.5 },
     exit: { opacity: 0 },
   };
 
+  // Function to handle CSV file download from the message's table data
   const downloadCSV = () => {
     try {
       const table = document.createElement('table');
@@ -48,6 +53,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, isDark }) => 
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
 
+      // Notification for successful download
       const notification = document.createElement('div');
       notification.className = `fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg 
         shadow-lg transform transition-transform duration-300 animate-slide-up`;
@@ -61,10 +67,12 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({ message, isDark }) => 
     }
   };
 
+  // Opens the modal when called
   const openModal = () => {
     setIsModalOpen(true);
   };
 
+  // Closes the modal when called
   const closeModal = () => {
     setIsModalOpen(false);
   };
