@@ -47,7 +47,7 @@ export const DEFAULT_CHAT_SETTINGS: ChatSettings = {
 // A list of frequently asked questions (FAQ)
 export const FAQ_QUESTIONS = [
   "Show the monthly distribution of meetings?",
-  "Which regions should we target for up selling based on canceled or incomplete orders?",
+  "Do a Customer Loyalty and Value Analysis. Who are our top 10 customers by order value, and how many meetings have we had with them?",
   "Find customers who have placed orders with a total value exceeding $10,000",
   "Provide the daily sales trend",
   "Identify the top 5 products by sales volume",

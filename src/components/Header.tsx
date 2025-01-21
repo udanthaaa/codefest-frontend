@@ -24,6 +24,7 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   // Local state management for controlling UI components
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false); // Manages logout confirmation visibility
+  const [showResetConfirm, setshowResetConfirm] = useState(false); // Manages chat restart confirmation visibility
   const [showMobileMenu, setShowMobileMenu] = useState(false); // Controls mobile menu visibility
   const [showSettings, setShowSettings] = useState(false); // Controls settings modal visibility
   const [settings, setSettings] = useState<ChatSettings>(DEFAULT_CHAT_SETTINGS); // Stores current chat settings
@@ -104,7 +105,7 @@ export const Header: React.FC<HeaderProps> = ({
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={onReset}
+              onClick={() => setshowResetConfirm(true)}
               className={`p-2 rounded-lg transition-colors ${
                 isDark
                   ? 'hover:bg-sysco-input text-red-600'
@@ -242,6 +243,49 @@ export const Header: React.FC<HeaderProps> = ({
         )}
       </AnimatePresence>
 
+      <AnimatePresence>
+        {showResetConfirm && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className={`p-6 rounded-lg shadow-lg w-[90%] max-w-sm mx-4 ${
+                isDark ? 'bg-sysco-card text-white' : 'bg-white text-gray-900'
+              }`}
+            >
+              <h2 className="text-lg font-semibold mb-4">Confirm Restart</h2>
+              <p className="mb-6">Are you sure you want to restart the chat?</p>
+              <div className="flex justify-end gap-4">
+                <button
+                  onClick={() => setshowResetConfirm(false)}
+                  className={`px-4 py-2 rounded-lg transition-colors ${
+                    isDark
+                      ? 'bg-sysco-input hover:bg-sysco-input/80'
+                      : 'bg-gray-200 hover:bg-gray-300'
+                  }`}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    onReset();
+                    setshowResetConfirm(false);
+                  }}
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500 transition-colors"
+                >
+                  Restart
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <AnimatePresence>
         {showLogoutConfirm && (
           <motion.div
